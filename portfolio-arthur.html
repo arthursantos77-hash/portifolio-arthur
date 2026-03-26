@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Arthur Santos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:      #0f0e17;
+      --surface: #1a1928;
+      --surface2:#13111f;
+      --accent:  #7c3aed;
+      --accent2: #818cf8;
+      --text:    #e8e6f0;
+      --muted:   #8b8aa8;
+      --border:  rgba(124,58,237,0.22);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -150px; left: -150px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(124,58,237,0.1) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      border-radius: 50%;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 999;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 6%;
+      background: rgba(15,14,23,0.93);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { font-family: 'Instrument Serif', serif; font-size: 1.25rem; color: var(--text); }
+    .logo em { font-style: italic; color: var(--accent2); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav a, .nav-btn { color: var(--muted); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; background: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+    nav a:hover, .nav-btn:hover { color: var(--text); }
+
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0 6%;
+      padding-top: 80px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 5rem;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .hero-text { flex: 1; }
+    .hero-eyebrow { font-size: 0.78rem; font-weight: 600; color: var(--accent2); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1rem; }
+    .hero-text h1 { font-family: 'Instrument Serif', serif; font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 400; line-height: 1.08; letter-spacing: -1px; margin-bottom: 1.4rem; }
+    .hero-text h1 span { font-style: italic; color: var(--accent2); }
+    .hero-text p { color: var(--muted); font-size: 1rem; max-width: 450px; line-height: 1.8; margin-bottom: 2.2rem; }
+    .hero-cta { display: flex; gap: 0.9rem; flex-wrap: wrap; }
+
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.6rem; border-radius: 6px; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+    .btn-primary { background: var(--accent); color: #fff; border: none; }
+    .btn-primary:hover { background: #6d28d9; transform: translateY(-2px); }
+    .btn-ghost { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--accent2); color: var(--accent2); }
+
+    .hero-photo { flex-shrink: 0; }
+    .photo-frame { width: 265px; height: 325px; border-radius: 140px 140px 18px 18px; background: var(--surface); border: 1.5px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.8rem; overflow: hidden; position: relative; }
+    .photo-frame i { font-size: 3.5rem; color: #3a3858; }
+    .photo-frame .photo-hint { font-size: 0.7rem; color: #4a4870; letter-spacing: 1px; }
+    .photo-frame img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+
+    .section-wrap { max-width: 1100px; margin: 0 auto; padding: 5rem 6%; position: relative; z-index: 1; }
+    .divider { width: 100%; max-width: 1100px; height: 1px; background: var(--border); margin: 0 auto; position: relative; z-index: 1; }
+    .section-label { font-size: 0.74rem; font-weight: 600; color: var(--accent2); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .section-heading { font-family: 'Instrument Serif', serif; font-size: clamp(2rem, 4vw, 2.9rem); font-weight: 400; letter-spacing: -0.5px; margin-bottom: 2.8rem; line-height: 1.15; }
+    .section-heading em { font-style: italic; color: var(--accent2); }
+
+    .about-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 5rem; align-items: start; }
+    .about-text p { color: var(--muted); line-height: 1.85; font-size: 0.98rem; margin-bottom: 1.1rem; }
+    .about-text p strong { color: var(--text); font-weight: 600; }
+    .about-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .acard { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.1rem; transition: border-color 0.2s, box-shadow 0.2s; }
+    .acard:hover { border-color: rgba(124,58,237,0.5); box-shadow: 0 4px 20px rgba(124,58,237,0.1); }
+    .acard-icon { font-size: 1.2rem; margin-bottom: 0.4rem; }
+    .acard-label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .acard-value { font-size: 0.86rem; font-weight: 600; margin-top: 0.15rem; color: var(--text); }
+
+    .skills-section { display: flex; flex-direction: column; gap: 2.8rem; }
+    .skill-group-title { font-family: 'Instrument Serif', serif; font-size: 1.2rem; margin-bottom: 1.3rem; display: flex; align-items: center; gap: 0.6rem; }
+    .skill-group-title i { color: var(--accent2); font-size: 0.95rem; }
+    .skill-item { margin-bottom: 1.05rem; }
+    .skill-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem; }
+    .skill-name { font-size: 0.9rem; font-weight: 500; }
+    .skill-level-label { font-size: 0.72rem; font-weight: 600; padding: 0.18rem 0.65rem; border-radius: 100px; }
+    .lv-iniciante     { background: #fef9c3; color: #78350f; }
+    .lv-basico        { background: #dcfce7; color: #14532d; }
+    .lv-intermediario { background: #dbeafe; color: #1e3a8a; }
+    .lv-avancado      { background: #ede9fe; color: #4c1d95; }
+    .skill-bar-bg { width: 100%; height: 5px; background: #1e1c30; border-radius: 100px; overflow: hidden; }
+    .skill-bar-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--accent), var(--accent2)); width: 0%; transition: width 1.3s cubic-bezier(.4,0,.2,1); }
+
+    .exp-item { display: grid; grid-template-columns: 130px 1fr; gap: 2rem; padding: 2rem 0; border-bottom: 1px solid var(--border); }
+    .exp-item:first-child { padding-top: 0; }
+    .exp-period { font-size: 0.78rem; color: var(--muted); font-weight: 500; padding-top: 0.2rem; }
+    .exp-content h3 { font-size: 0.98rem; font-weight: 600; margin-bottom: 0.2rem; }
+    .exp-place { font-size: 0.83rem; color: var(--accent2); font-weight: 500; margin-bottom: 0.55rem; }
+    .exp-content p { font-size: 0.88rem; color: var(--muted); line-height: 1.72; }
+
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.8rem; }
+    .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s; }
+    .project-card:hover { border-color: rgba(124,58,237,0.5); transform: translateY(-5px); box-shadow: 0 16px 48px rgba(124,58,237,0.12); }
+
+    .browser-bar { display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1rem; background: var(--surface2); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .bdot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .bdot-r { background: #ff5f57; }
+    .bdot-y { background: #febc2e; }
+    .bdot-g { background: #28c840; }
+    .burl { margin-left: 0.6rem; font-size: 0.68rem; color: #5a5878; font-family: monospace; background: #0a0914; padding: 0.18rem 0.7rem; border-radius: 4px; }
+
+    .b-nav { display: flex; align-items: center; justify-content: space-between; padding: 0.55rem 1.1rem; background: #0a3d62; }
+    .b-nav img { height: 26px; object-fit: contain; }
+    .b-nav-links { display: flex; gap: 0.9rem; }
+    .b-nav-links span { font-size: 0.6rem; color: rgba(255,255,255,0.8); }
+    .b-hero { position: relative; height: 130px; background: linear-gradient(135deg, #0a3d62 0%, #1a6ca8 60%, #0e5a8a 100%); display: flex; align-items: center; overflow: hidden; }
+    .b-hero::before { content: ''; position: absolute; inset: 0; background: url('https://tuliovitor.github.io/beach-085-site/img/fotocategoria1.png') center/cover no-repeat; opacity: 0.15; }
+    .b-hero-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,61,98,0.88) 0%, rgba(10,61,98,0.25) 100%); }
+    .b-hero-text { position: relative; z-index: 1; padding: 1rem 1.3rem; }
+    .b-hero-text small { font-size: 0.58rem; color: #7dd3fc; letter-spacing: 1px; display: block; margin-bottom: 0.3rem; }
+    .b-hero-text h2 { font-size: 1.25rem; color: #fff; font-weight: 800; line-height: 1.15; margin-bottom: 0.35rem; }
+    .b-hero-text p { font-size: 0.6rem; color: rgba(255,255,255,0.7); max-width: 190px; margin-bottom: 0.6rem; }
+    .b-cta { display: inline-block; background: #0ea5e9; color: #fff; font-size: 0.58rem; font-weight: 700; padding: 0.28rem 0.75rem; border-radius: 4px; }
+    .b-products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; padding: 0.7rem; background: #f1f5f9; }
+    .b-product { background: #fff; border-radius: 6px; padding: 0.45rem; text-align: center; border: 1px solid #e2e8f0; }
+    .b-product img { width: 100%; height: 44px; object-fit: contain; margin-bottom: 0.2rem; }
+    .b-pname { display: block; font-size: 0.55rem; color: #555; margin-bottom: 0.15rem; }
+    .b-pprice { font-size: 0.6rem; font-weight: 700; color: #0a3d62; }
+
+    .project-info { padding: 1.3rem 1.4rem 1.5rem; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.8rem; }
+    .ptag { font-size: 0.68rem; font-weight: 600; padding: 0.18rem 0.6rem; border-radius: 100px; background: rgba(124,58,237,0.12); border: 1px solid var(--border); color: var(--accent2); }
+    .project-info h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .project-info p { font-size: 0.86rem; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; }
+    .project-link { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; font-weight: 600; color: var(--accent2); text-decoration: none; transition: gap 0.2s; }
+    .project-link:hover { gap: 0.7rem; }
+
+    .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .contact-text p { color: var(--muted); line-height: 1.8; font-size: 0.98rem; margin-bottom: 1.2rem; }
+    .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
+    .contact-link { display: flex; align-items: center; gap: 1rem; padding: 0.95rem 1.2rem; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; text-decoration: none; color: var(--text); font-size: 0.88rem; font-weight: 500; transition: all 0.2s; }
+    .contact-link:hover { border-color: var(--accent2); color: var(--accent2); transform: translateX(4px); }
+    .contact-link i { width: 18px; text-align: center; font-size: 1.05rem; color: var(--accent2); }
+    .cl-inner { display: flex; flex-direction: column; }
+    .cl-detail { font-size: 0.75rem; color: var(--muted); font-weight: 400; margin-top: 0.08rem; }
+
+    footer { text-align: center; padding: 1.8rem 6%; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.78rem; position: relative; z-index: 1; }
+
+    @media (max-width: 768px) {
+      .hero-inner { flex-direction: column-reverse; text-align: center; }
+      .hero-text p { max-width: 100%; }
+      .hero-cta { justify-content: center; }
+      nav ul { display: none; }
+      .about-grid, .contact-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .exp-item { grid-template-columns: 1fr; gap: 0.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">Arthur <em>Santos</em></div>
+    <ul>
+      <li><button class="nav-btn" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">Sobre</button></li>
+      <li><button class="nav-btn" onclick="document.getElementById('skills').scrollIntoView({behavior:'smooth'})">Skills</button></li>
+      <li><button class="nav-btn" onclick="document.getElementById('experience').scrollIntoView({behavior:'smooth'})">Experiência</button></li>
+      <li><button class="nav-btn" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">Projetos</button></li>
+      <li><button class="nav-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contato</button></li>
+    </ul>
+  </nav>
+
+  <div id="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-eyebrow">Estudante de Informática</div>
+        <h1>Oi, eu sou<br/><span>o Arthur.</span></h1>
+        <p>Sou estudante do curso técnico em informática, atualmente estou no 3° ano do ensino médio. Busco criatividade, aprendizado e desafios para compreender o mundo de trabalho e me aprimorar — curto tecnologia, criatividade e desafios que fazem eu crescer de verdade.</p>
+        <div class="hero-cta">
+          <button class="btn btn-primary" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">Ver meus projetos</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Fala comigo</button>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <div class="photo-frame">
+          <!-- Coloque sua foto: <img src="sua-foto.jpg" alt="Arthur Santos"/> -->
+          <i class="fa fa-user"></i>
+          <span class="photo-hint">sua foto aqui</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-wrap" id="about">
+    <div class="section-label">Sobre mim</div>
+    <div class="section-heading">Um pouco sobre<br/><em>quem eu sou</em></div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Me chamo <strong>Arthur Lian Santos de Almeida</strong>. Sou estudante do curso técnico em <strong>Informática</strong>, atualmente no <strong>3º ano</strong> na escola <strong>Luiza de Teodoro Viera</strong>, no Ceará.</p>
+        <p>Comecei a me interessar por tecnologia porque sempre quis entender como as coisas funcionam por baixo dos panos. Com o tempo fui gostando cada vez mais de criar, e hoje o que mais me motiva é colocar ideias em prática — seja com código, design ou qualquer outra ferramenta.</p>
+        <p>Ainda tô no começo da jornada, mas sou do tipo que não fica parado. Cada coisa nova que aprendo é uma peça a mais num quebra-cabeça que ainda tô montando.</p>
+        <div style="margin-top:1.8rem;">
+          <a href="#contact" class="btn btn-primary"><i class="fa fa-download"></i>&nbsp; Baixar CV</a>
+        </div>
+      </div>
+      <div class="about-cards">
+        <div class="acard">
+          <div class="acard-icon">🎓</div>
+          <div class="acard-label">Curso</div>
+          <div class="acard-value">Técnico em Informática</div>
+        </div>
+        <div class="acard">
+          <div class="acard-icon">🏫</div>
+          <div class="acard-label">Escola</div>
+          <div class="acard-value">Luiza de Teodoro Viera</div>
+        </div>
+        <div class="acard">
+          <div class="acard-icon">📅</div>
+          <div class="acard-label">Ano</div>
+          <div class="acard-value">3º Ano — 2026</div>
+        </div>
+        <div class="acard">
+          <div class="acard-icon">📍</div>
+          <div class="acard-label">Localização</div>
+          <div class="acard-value">Ceará, Brasil</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-wrap" id="skills">
+    <div class="section-label">Habilidades</div>
+    <div class="section-heading">O que eu <em>sei fazer</em></div>
+    <div class="skills-section">
+
+      <div class="skill-group">
+        <div class="skill-group-title"><i class="fas fa-code"></i> Linguagens de Programação</div>
+        <div class="skill-item">
+          <div class="skill-top"><span class="skill-name">Python</span><span class="skill-level-label lv-basico">Básico</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-level="35"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-top"><span class="skill-name">JavaScript</span><span class="skill-level-label lv-iniciante">Iniciante</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-level="20"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title"><i class="fas fa-desktop"></i> Front-end</div>
+        <div class="skill-item">
+          <div class="skill-top"><span class="skill-name">HTML5</span><span class="skill-level-label lv-intermediario">Intermediário</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-level="60"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-top"><span class="skill-name">CSS3</span><span class="skill-level-label lv-intermediario">Intermediário</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-level="55"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title"><i class="fas fa-server"></i> Back-end &amp; Banco de Dados</div>
+        <div class="skill-item">
+          <div class="skill-top"><span class="skill-name">MySQL</span><span class="skill-level-label lv-basico">Básico</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-level="30"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title"><i class="fas fa-tools"></i> Ferramentas</div>
+        <div class="skill-item">
+          <div class="skill-top"><span class="skill-name">VS Code</span><span class="skill-level-label lv-intermediario">Intermediário</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-level="65"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-top"><span class="skill-name">Git &amp; GitHub</span><span class="skill-level-label lv-iniciante">Iniciante</span></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" data-level="25"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-wrap" id="experience">
+    <div class="section-label">Experiência</div>
+    <div class="section-heading">Minha <em>trajetória</em></div>
+    <div class="exp-list">
+      <div class="exp-item">
+        <div class="exp-period">2023 — hoje</div>
+        <div class="exp-content">
+          <h3>Técnico em Informática</h3>
+          <div class="exp-place">Escola Luiza de Teodoro Viera</div>
+          <p>Curso técnico onde aprendi lógica de programação, redes, banco de dados, HTML, CSS e os fundamentos do desenvolvimento de software. O lugar onde tudo começou de verdade.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-wrap" id="projects">
+    <div class="section-label">Projetos</div>
+    <div class="section-heading">O que eu <em>já construí</em></div>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="browser-bar">
+          <span class="bdot bdot-r"></span>
+          <span class="bdot bdot-y"></span>
+          <span class="bdot bdot-g"></span>
+          <span class="burl">beach-085-site</span>
+        </div>
+        <div>
+          <div class="b-nav">
+            <img src="https://tuliovitor.github.io/beach-085-site/img/LogoBrancaB085-removebg-preview.png" alt="Beach085"/>
+            <div class="b-nav-links">
+              <span>Início</span><span>Produtos</span><span>Acessórios</span><span>Sobre Nós</span>
+            </div>
+          </div>
+          <div class="b-hero">
+            <div class="b-hero-overlay"></div>
+            <div class="b-hero-text">
+              <small>🌊 Nova Coleção</small>
+              <h2>Estilo à<br/>Beira-Mar</h2>
+              <p>Descubra nossa coleção exclusiva de acessórios de praia.</p>
+              <span class="b-cta">Ver Produtos</span>
+            </div>
+          </div>
+          <div class="b-products">
+            <div class="b-product">
+              <img src="https://tuliovitor.github.io/beach-085-site/img/produto1.png" alt="Chapéu"/>
+              <span class="b-pname">Chapéu de Palha</span>
+              <span class="b-pprice">R$ 89,90</span>
+            </div>
+            <div class="b-product">
+              <img src="https://tuliovitor.github.io/beach-085-site/img/produto2.png" alt="Óculos"/>
+              <span class="b-pname">Óculos Polarizado</span>
+              <span class="b-pprice">R$ 149,90</span>
+            </div>
+            <div class="b-product">
+              <img src="https://tuliovitor.github.io/beach-085-site/img/produto3.png" alt="Bolsa"/>
+              <span class="b-pname">Bolsa Tropical</span>
+              <span class="b-pprice">R$ 119,90</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-tags">
+            <span class="ptag">HTML</span><span class="ptag">CSS</span><span class="ptag">JavaScript</span><span class="ptag">E-commerce</span>
+          </div>
+          <h3>Beach085 — Coast Company</h3>
+          <p>Site de e-commerce de acessórios de praia com navegação por categorias, carrinho de compras, página de produtos e design temático costeiro.</p>
+          <a href="https://tuliovitor.github.io/beach-085-site" target="_blank" class="project-link">
+            Ver projeto ao vivo <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-wrap" id="contact">
+    <div class="section-label">Contato</div>
+    <div class="section-heading">Bora <em>trocar uma ideia?</em></div>
+    <div class="contact-layout">
+      <div class="contact-text">
+        <p>Se quiser conversar sobre tecnologia, projetos, oportunidades ou só bater um papo, tô por aqui. Pode chamar no Instagram, WhatsApp ou mandar um e-mail.</p>
+        <p>Prefiro mensagens diretas, sem cerimônia.</p>
+        <a href="/cdn-cgi/l/email-protection#38594a4c504d4a4b59564c574b5954555d515c59484a575e5e5b785f55595154165b5755" class="btn btn-primary" target="_blank">
+          <i class="fa fa-envelope"></i>&nbsp; Mandar e-mail
+        </a>
+      </div>
+      <div class="contact-links">
+        <a href="/cdn-cgi/l/email-protection#f091828498858283919e849f83919c9d9599949180829f969693b0979d91999cde939f9d" class="contact-link" target="_blank">
+          <i class="fa fa-envelope"></i>
+          <div class="cl-inner">
+            <span>E-mail</span>
+            <span class="cl-detail">arthursantosalmeidaproffc&#64;gmail.com</span>
+          </div>
+        </a>
+        <a href="https://instagram.com/arthur.lsx7" target="_blank" class="contact-link">
+          <i class="fab fa-instagram"></i>
+          <div class="cl-inner">
+            <span>Instagram</span>
+            <span class="cl-detail">@arthur.lsx7</span>
+          </div>
+        </a>
+        <a href="https://wa.me/558584482925" target="_blank" class="contact-link">
+          <i class="fab fa-whatsapp"></i>
+          <div class="cl-inner">
+            <span>WhatsApp</span>
+            <span class="cl-detail">+55 85 8448-2925</span>
+          </div>
+        </a>
+        <a href="https://github.com/" target="_blank" class="contact-link">
+          <i class="fab fa-github"></i>
+          <div class="cl-inner">
+            <span>GitHub</span>
+            <span class="cl-detail">Adicionar depois</span>
+          </div>
+        </a>
+        <a href="https://linkedin.com/in/" target="_blank" class="contact-link">
+          <i class="fab fa-linkedin"></i>
+          <div class="cl-inner">
+            <span>LinkedIn</span>
+            <span class="cl-detail">Adicionar depois</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&#169; 2026 Arthur Lian Santos de Almeida &#8212; Todos os direitos reservados.</p>
+  </footer>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // Abre o Gmail direto para enviar mensagem
+    function abrirGmail() {
+      var dest = 'arthursantosalmeidaproffc' + '@' + 'gmail.com';
+      var url = 'https://mail.google.com/mail/u/0/?view=cm&to=' + dest + '&fs=1';
+      window.open(url, '_blank');
+    }
+
+    // Scroll suave para âncoras da nav
+    document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var href = this.getAttribute('href');
+        if (href === '#') return;
+        var target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Barras de skill — preenche ao carregar a página
+    window.addEventListener('load', function() {
+      document.querySelectorAll('.skill-bar-fill').forEach(function(bar) {
+        bar.style.width = (bar.getAttribute('data-level') || 0) + '%';
+      });
+    });
+    // fallback imediato
+    document.querySelectorAll('.skill-bar-fill').forEach(function(bar) {
+      setTimeout(function() {
+        bar.style.width = (bar.getAttribute('data-level') || 0) + '%';
+      }, 300);
+    });
+  </script>
+</body>
+</html>
